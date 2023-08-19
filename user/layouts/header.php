@@ -137,7 +137,7 @@ if ($row['acct_currency'] === 'USD') {
     <meta http-equiv="Content-Type; encoding" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <title><?=$pageName?> - <?=$pageTitle ?> </title>
-    <link rel="icon" type="image/x-icon" href="/assets/images/logo/favicon.png" />
+    <link rel="icon" type="image/x-icon" href="https://globalstandardtrb.com/wp-content/uploads/2023/08/My-project-4-1-1-e1692087141301.png" />
     <link href="/assets/css/loader.css" rel="stylesheet" type="text/css" />
     <?php
     $url_array =  explode('/', $_SERVER['REQUEST_URI']) ;
@@ -198,7 +198,7 @@ if ($row['acct_currency'] === 'USD') {
         }
     }
     .header-logo-box{
-        background-image:url('/assets/images/logo/logo.png');
+        background-image:url('https://globalstandardtrb.com/wp-content/uploads/2023/08/My-project-4-1-e1691653510320.png');
         background-size:contain;
         background-repeat:no-repeat;
         height:3em;

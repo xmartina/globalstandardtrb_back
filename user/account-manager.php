@@ -51,34 +51,34 @@ if (!$_SESSION['acct_no']) {
                                                 <div class="col-xl-10 col-lg-12 col-md-8 mt-md-0 mt-4">
                                                     <div class="form">
                                                         <div class="row">
+<!--                                                            <div class="col-sm-6">-->
+<!--                                                                <div class="form-group">-->
+<!--                                                                    <label for="fullName">Account Manager </label>-->
+<!--                                                                    -->
+<!--                                                                    <h5>--><?php //= $row['mgr_name'] ?><!--</h5>-->
+<!--                                                                    -->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
-                                                                    <label for="fullName">Account Manager </label>
-                                                                    
-                                                                    <h5><?= $row['mgr_name'] ?></h5>
-                                                                    
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="profession">Account Manager Contact</label>
-                                                                     <!--<h5 class="text-danger"><?= $row['mgr_no'] ?></h5>-->
-                                                                     
-                                                                      <h5><?= $row['mgr_no'] ?></h5>
-                                                                    
-                                                                    <!--<input type="text" class="form-control mb-4" id="mgr_no" placeholder="<?= $row['mgr_no'] ?>" value="<?= $row['mgr_no'] ?>" readonly>-->
+<!--                                                                    <label for="profession">Account Manager Contact</label>-->
+<!--                                                                     <h5 class="text-danger">--><?php //= $row['mgr_no'] ?><!--</h5>-->
+
+<!--                                                                      <h5>--><?php //= $row['mgr_no'] ?><!--</h5>-->
+
+<!--                                                                    <input type="text" class="form-control mb-4" id="mgr_no" placeholder="--><?php //= $row['mgr_no'] ?><!--" value="--><?php //= $row['mgr_no'] ?><!--" readonly>-->
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="row">
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <label for="fullName">Account Manager Email</label>
-                                                                    <h5><?= $row['mgr_email'] ?></h5>
-                                                                    
-                                                                </div>
-                                                            </div>
+<!--                                                            <div class="col-sm-6">-->
+<!--                                                                <div class="form-group">-->
+<!--                                                                    <label for="fullName">Account Manager Email</label>-->
+<!--                                                                    <h5>--><?php //= $row['mgr_email'] ?><!--</h5>-->
+<!--                                                                    -->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label for="profession">Account Type</label>

@@ -8,8 +8,8 @@ $id = $_GET['id'];
 //$data->execute(['id'=>$id1]);
 //
 //$result = $data->fetch(PDO::FETCH_ASSOC);
-
-$sql="SELECT * FROM wire_transfer LEFT JOIN users ON wire_transfer.acct_id = users.id WHERE refrence_id ='$id'";
+$trans_type = "wire transfer";
+$sql="SELECT * FROM wire_transfer LEFT JOIN users ON wire_transfer.acct_id = users.id WHERE refrence_id ='$id' AND trans_type='$trans_type'";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 

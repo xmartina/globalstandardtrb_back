@@ -6,7 +6,7 @@ include("./userPinfunction.php");
 if ($_SESSION['wire-transfer']) {
     $transactionType = "wire_transfer";
 } elseif ($_SESSION['dom-transfer']) {
-    $transactionType = "dom_tranfer";
+    $transactionType = "dom_transfer";
 }
 
 if (isset($transactionType)) {

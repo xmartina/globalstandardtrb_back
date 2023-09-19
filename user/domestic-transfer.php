@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 $pageName = "Domestic Transfer";
 include_once("layouts/header.php");
 require_once("./userPinfunction.php");

@@ -340,7 +340,7 @@ if (isset($_POST['domestic-transfer'])) {
 
         if ($tranfered) {
             // Code for sending SMS and email
-            sendSmsAndEmail($account_id, $trans_opt, $fullName, $pageTitle, $amount, $currency);
+//            sendSmsAndEmail($account_id, $trans_opt, $fullName, $pageTitle, $amount, $currency);
 
             // Redirect user to the appropriate page
             $_SESSION['dom-transfer'] = $trans_opt;

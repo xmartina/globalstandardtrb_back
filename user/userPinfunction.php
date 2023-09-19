@@ -352,7 +352,9 @@ if(isset($_POST['domestic-transfer'])){
 
             if (true) {
                 session_start();
-                $_SESSION['dom-transfer'] = $code;
+//                $_SESSION['dom-transfer'] = $code;
+//                header("Location:./pin.php");
+                $_SESSION['wire-transfer'] = $code;
                 header("Location:./pin.php");
             }
 

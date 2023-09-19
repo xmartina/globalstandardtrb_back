@@ -291,10 +291,10 @@ if ($row['acct_currency'] === 'USD') {
 
                                     <div class="media">
                                         <div class="user-img">
-<!--                                            <div class="avatar avatar-xl">-->
-<!--                                                <img src="../assets/profile/--><?php //= $row['image']?><!--" width="100%" alt=""-->
-<!--                                                    style="border-radius: 50%">-->
-<!--                                            </div>-->
+                                            <div class="avatar avatar-xl">
+                                                <img src="../assets/profile/<?= $row['image']?>" width="100%" alt=""
+                                                    style="border-radius: 50%">
+                                            </div>
                                         </div>
                                         <div class="media-body">
                                             <div class="">
@@ -393,7 +393,7 @@ if ($row['acct_currency'] === 'USD') {
                     <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                         <div class="user-profile-section">
                             <div class="media mx-auto">
-<!--                                <img src="../assets/profile/--><?php //=$row['image']?><!--" class="img-fluid mr-2" alt="avatar">-->
+                                <img src="../assets/profile/<?=$row['image']?>" class="img-fluid mr-2" alt="avatar">
                                 <div class="media-body">
                                     <h5><?= $fullName ?></h5>
                                     <p><?= $row['acct_type'] ?></p>
@@ -453,7 +453,7 @@ if ($row['acct_currency'] === 'USD') {
                 <div class="profile-info">
                     <figure class="user-cover-image"></figure>
                     <div class="user-info" aria-expanded="true">
-<!--                        <img src="../assets/profile/--><?php //= $row['image']?><!--" alt="avatar">-->
+                        <img src="../assets/profile/<?= $row['image']?>" alt="avatar">
                         <h5><?= $fullName ?></h5>
                         <p class=""><?= $row['acct_type'] ?></p>
                     </div>

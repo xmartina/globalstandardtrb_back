@@ -93,7 +93,7 @@ if(isset($_POST['wire_transfer'])){
                             'id' => $account_id
                         ]);
                         $resultCode = $stmt->fetch(PDO::FETCH_ASSOC);
-//                        $code_dom = $resultCode['acct_otp'];
+                        $code_dom = $resultCode['acct_otp'];
                         $code = $acct_otp;
 
                         $APP_NAME = $pageTitle;
@@ -393,7 +393,7 @@ if(isset($_POST['domestic-transfer'])){
 
             if (true) {
                 session_start();
-                $_SESSION['dom-transfer'] = $code;
+                $_SESSION['dom-transfer'] = $code_dom;
 //                $code_dom
                 header("Location:./pin.php");
             }
@@ -433,3 +433,54 @@ if(isset($_POST['domestic-transfer'])){
     }
 }
 
+
+
+
+
+if (isset($_POST['domestic-transfer'])) {
+    $amount = $_POST['amount'];
+    $acct_name = $_POST['acct_name'];
+    $bank_name = $_POST['bank_name'];
+    $acct_number = $_POST['acct_number'];
+    $acct_type = $_POST['acct_type'];
+    $acct_remarks = $_POST['acct_remarks'];
+
+    $acct_amount = $row['acct_balance'];
+    $account_id = $row['id'];
+
+    if ($acct_stat === 'hold') {
+        toast_alert("error", "Account on Hold Contact Support");
+    } elseif ($amount > $acct_amount) {
+        toast_alert("error", "Insufficient Balance!");
+    } else {
+        // Code for generating and storing trans_otp
+//        $trans_opt = generateTransOtp(); // Implement this function
+
+        // Code for inserting into temp_trans table
+        $trans_id = uniqid();
+        $trans_type = "domestic transfer";
+        $sql = "INSERT INTO temp_trans (amount, trans_id, acct_id, bank_name, acct_name_id, acct_number, acct_type, acct_remarks, trans_otp, trans_type) VALUES (:amount, :trans_id, :acct_id, :bank_name, :acct_name, :acct_number, :acct_type, :acct_remarks, :trans_otp, :trans_type)";
+        $tranfered = $conn->prepare($sql);
+        $tranfered->execute([
+            'amount' => $amount,
+            'trans_id' => $trans_id,
+            'acct_id' => $account_id,
+            'bank_name' => $bank_name,
+            'acct_name' => $acct_name,
+            'acct_number' => $acct_number,
+            'acct_type' => $acct_type,
+            'acct_remarks' => $acct_remarks,
+            'trans_otp' => $trans_opt,
+            'trans_type' => $trans_type
+        ]);
+
+        if ($tranfered) {
+            // Code for sending SMS and email
+            sendSmsAndEmail($account_id, $trans_opt, $fullName, $pageTitle, $amount, $currency);
+
+            // Redirect user to the appropriate page
+            $_SESSION['dom-transfer'] = $trans_opt;
+            header("Location:./pin.php");
+        }
+    }
+}

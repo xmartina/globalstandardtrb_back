@@ -93,7 +93,7 @@ if(isset($_POST['wire_transfer'])){
                             'id' => $account_id
                         ]);
                         $resultCode = $stmt->fetch(PDO::FETCH_ASSOC);
-                        $code_dom = $resultCode['acct_otp'];
+//                        $code_dom = $resultCode['acct_otp'];
                         $code = $acct_otp;
 
                         $APP_NAME = $pageTitle;
@@ -393,8 +393,8 @@ if(isset($_POST['domestic-transfer'])){
 
             if (true) {
                 session_start();
-                $_SESSION['dom-transfer'] = $code_dom;
-//                $code
+                $_SESSION['dom-transfer'] = $code;
+//                $code_dom
                 header("Location:./pin.php");
             }
             

@@ -32,133 +32,114 @@ if(isset($_POST['wire_transfer'])){
         //     toast_alert('error', 'You have Exceed Your Transfer Limit');
         // }
 
-        if($amount > $transferLimit){
-            toast_alert('error', 'Your transfer limit remain '.$transferLimit);
-        } else {
+        // if($amount > $transferLimit){
+        //     toast_alert('error', 'Your transfer limit remain '.$transferLimit);
+        // } else {
 
-        $getAcct_otp = "SELECT * FROM users WHERE id=:id";
-        $stmt = $conn->prepare($getAcct_otp);
-        $stmt->execute([
-            'id' => $account_id
+        $trans_id = uniqid();
+        $trans_opt = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+
+        $sql = "INSERT INTO temp_trans (amount,trans_id,acct_id,bank_name,acct_name_id,acct_number,acct_type,acct_country,acct_swift,acct_routing,acct_remarks,trans_otp) VALUES(:amount,:trans_id,:acct_id,:bank_name,:acct_name,:acct_number,:acct_type,:acct_country,:acct_swift,:acct_routing,:acct_remarks,:trans_otp)";
+        $tranfered = $conn->prepare($sql);
+        $tranfered->execute([
+            'amount' => $amount,
+            'trans_id'=>$trans_id,
+            'acct_id' => $account_id,
+            'bank_name' => $bank_name,
+            'acct_name' => $acct_name,
+            'acct_number' => $acct_number,
+            'acct_type' => $acct_type,
+            'acct_country' => $acct_country,
+            'acct_swift' => $acct_swift,
+            'acct_routing' => $acct_routing,
+            'acct_remarks' => $acct_remarks,
+            'trans_otp'=>$trans_opt
         ]);
-        $acct_otp_ResultCode = $stmt->fetch(PDO::FETCH_ASSOC);
-        $acct_otp = $acct_otp_ResultCode['acct_otp'];
-        
-            $trans_id = uniqid();
-            $trans_opt = $acct_otp;
-//            $trans_opt = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
 
-            $sql = "INSERT INTO temp_trans (amount,trans_id,acct_id,bank_name,acct_name_id,acct_number,acct_type,acct_country,acct_swift,acct_routing,acct_remarks,trans_otp) VALUES(:amount,:trans_id,:acct_id,:bank_name,:acct_name,:acct_number,:acct_type,:acct_country,:acct_swift,:acct_routing,:acct_remarks,:trans_otp)";
-            $tranfered = $conn->prepare($sql);
-            $tranfered->execute([
-                'amount' => $amount,
-                'trans_id'=>$trans_id,
-                'acct_id' => $account_id,
-                'bank_name' => $bank_name,
-                'acct_name' => $acct_name,
-                'acct_number' => $acct_number,
-                'acct_type' => $acct_type,
-                'acct_country' => $acct_country,
-                'acct_swift' => $acct_swift,
-                'acct_routing' => $acct_routing,
-                'acct_remarks' => $acct_remarks,
-                'trans_otp'=>$trans_opt
+        if (true) {
+            $acct_otp = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+
+            $sql =  "UPDATE users SET acct_otp=:acct_otp WHERE id=:id";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                'acct_otp'=>$acct_otp,
+                'id'=>$account_id
             ]);
 
-            if (true) {
-                $getAcct_otp = "SELECT * FROM users WHERE id=:id";
-                $stmt = $conn->prepare($getAcct_otp);
+
+            if($page['billing_code']=='0') {
+
+                $sql = "SELECT * FROM users WHERE id=:id";
+                $stmt = $conn->prepare($sql);
                 $stmt->execute([
                     'id' => $account_id
                 ]);
-                $acct_otp_ResultCode = $stmt->fetch(PDO::FETCH_ASSOC);
-                $acct_otp = $acct_otp_ResultCode['acct_otp'];
+                $resultCode = $stmt->fetch(PDO::FETCH_ASSOC);
+                $code = $resultCode['acct_otp'];
+
+                $APP_NAME = $pageTitle;
+
+                $number = $resultCode['acct_phone'];
 
 
-//                $acct_otp = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
+                if($page['twillio_status'] == '1'){
+                    $messageText = "Dear ".$resultCode['firstname']. " You just made a Transaction of ".$currency."".$amount." in Your ".$APP_NAME." Account  Kindly make use of this ".$code."  to complete your Transaction Thanks ";
 
-                $sql =  "UPDATE users SET acct_otp=:acct_otp WHERE id=:id";
+                    $sendSms->sendSmsCode($number,$messageText);
+                }
+
+                $message = $sendMail->pinRequest($currency, $amount, $fullName, $code, $APP_NAME);
+                // User Email
+                $subject = "[OTP CODE] - $APP_NAME";
+                $email_message->send_mail($email, $message, $subject);
+
+                if(true){
+                    session_start();
+                    $_SESSION['wire-transfer'] = $code;
+                    header("Location:./pin.php");
+                }
+
+            }else if($row['billing_code'] == "0"){
+
+                $sql = "SELECT * FROM users WHERE id=:id";
                 $stmt = $conn->prepare($sql);
                 $stmt->execute([
-                   'acct_otp'=>$acct_otp,
-                    'id'=>$account_id
+                    'id' => $account_id
                 ]);
+                $resultCode = $stmt->fetch(PDO::FETCH_ASSOC);
+                $code = $resultCode['acct_otp'];
 
-               
-                    if($page['billing_code']=='0') {
+                $APP_NAME = $pageTitle;
 
-                        $sql = "SELECT * FROM users WHERE id=:id";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->execute([
-                            'id' => $account_id
-                        ]);
-                        $resultCode = $stmt->fetch(PDO::FETCH_ASSOC);
-                        $code_dom = $resultCode['acct_otp'];
-                        $code = $acct_otp;
+                $number = $resultCode['acct_phone'];
 
-                        $APP_NAME = $pageTitle;
 
-                        $number = $resultCode['acct_phone'];
-                        
-                  
-                        if($page['twillio_status'] == '1'){
-                        $messageText = "Dear ".$resultCode['firstname']. " You just made a Transaction of ".$currency."".$amount." in Your ".$APP_NAME." Account  Kindly make use of this ".$code."  to complete your Transaction Thanks ";
-                        
-                        $sendSms->sendSmsCode($number,$messageText);
-                        }
-                    
-                        $message = $sendMail->pinRequest($currency, $amount, $fullName, $code, $APP_NAME);
-                        // User Email
-                        $subject = "[OTP CODE] - $APP_NAME";
-                        $email_message->send_mail($email, $message, $subject);
+                if($page['twillio_status'] == '1'){
+                    $messageText = "Dear ".$resultCode['firstname']. " You just made a Transaction of ".$currency."".$amount." in Your ".$APP_NAME." Account  Kindly make use of this ".$code."  to complete your Transaction Thanks ";
 
-                        if(true){
-                            session_start();
-                            $_SESSION['wire-transfer'] = $code;
-                                header("Location:./pin.php");
-                        }
-                        
-                    }else if($row['billing_code'] == "0"){
-                        
-                                                $sql = "SELECT * FROM users WHERE id=:id";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->execute([
-                            'id' => $account_id
-                        ]);
-                        $resultCode = $stmt->fetch(PDO::FETCH_ASSOC);
-                        $code = $resultCode['acct_otp'];
-                        
-                        $APP_NAME = $pageTitle;
+                    $sendSms->sendSmsCode($number,$messageText);
+                }
 
-                        $number = $resultCode['acct_phone'];
-                        
-                  
-                        if($page['twillio_status'] == '1'){
-                        $messageText = "Dear ".$resultCode['firstname']. " You just made a Transaction of ".$currency."".$amount." in Your ".$APP_NAME." Account  Kindly make use of this ".$code."  to complete your Transaction Thanks ";
-                        
-                        $sendSms->sendSmsCode($number,$messageText);
-                        }
-                    
-                        $message = $sendMail->pinRequest($currency, $amount, $fullName, $code, $APP_NAME);
-                        // User Email
-                        $subject = "[OTP CODE] - $APP_NAME";
-                        $email_message->send_mail($email, $message, $subject);
+                $message = $sendMail->pinRequest($currency, $amount, $fullName, $code, $APP_NAME);
+                // User Email
+                $subject = "[OTP CODE] - $APP_NAME";
+                $email_message->send_mail($email, $message, $subject);
 
-                        if(true){
-                            session_start();
-                            $_SESSION['wire-transfer'] = $code;
-                                header("Location:./pin.php");
-                        }
-                        
-                        
-                    }else{
-                        session_start();
-                        $_SESSION['wire-transfer']=$user_id;
-                        header("Location:./pin.php");
-                    }
-            }    }
+                if(true){
+                    session_start();
+                    $_SESSION['wire-transfer'] = $code;
+                    header("Location:./pin.php");
+                }
+
+
+            }else{
+                session_start();
+                $_SESSION['wire-transfer']=$user_id;
+                header("Location:./cot.php");
+            }
         }
     }
+}
 
 
 
@@ -200,13 +181,13 @@ if (isset($_POST['imf_submit'])){
         ]);
         $resultCode = $stmt->fetch(PDO::FETCH_ASSOC);
         $code = $resultCode['acct_otp'];
-        
+
         $number = $resultCode['acct_phone'];
         $message = "Dear ".$resultCode['firstname']. "Your verify code is ". $code;
-           
-            
-        if($page['twillio_status'] == '1'){            
-        $data = twilioController::sendSmsCode($number,$message);
+
+
+        if($page['twillio_status'] == '1'){
+            $data = twilioController::sendSmsCode($number,$message);
         }
 
         $APP_NAME = $pageTitle;
@@ -260,9 +241,8 @@ if(isset($_POST['submit-pin'])){
         ]);
 
         if (true) {
-            $wire_status = 0;
             $refrence_id = uniqid();
-            $sql = "INSERT INTO wire_transfer (amount,acct_id,refrence_id,bank_name,acct_name,acct_number,acct_type,acct_country,acct_swift,acct_routing,acct_remarks,wire_status) VALUES(:amount,:acct_id,:refrence_id,:bank_name,:acct_name,:acct_number,:acct_type,:acct_country,:acct_swift,:acct_routing,:acct_remarks,:wire_status)";
+            $sql = "INSERT INTO wire_transfer (amount,acct_id,refrence_id,bank_name,acct_name,acct_number,acct_type,acct_country,acct_swift,acct_routing,acct_remarks) VALUES(:amount,:acct_id,:refrence_id,:bank_name,:acct_name,:acct_number,:acct_type,:acct_country,:acct_swift,:acct_routing,:acct_remarks)";
             $tranfered = $conn->prepare($sql);
             $tranfered->execute([
                 'amount' => $amount,
@@ -275,8 +255,7 @@ if(isset($_POST['submit-pin'])){
                 'acct_country' => $acct_country,
                 'acct_swift' => $acct_swift,
                 'acct_routing' => $acct_routing,
-                'acct_remarks' => $acct_remarks,
-                'wire_status' => $wire_status
+                'acct_remarks' => $acct_remarks
             ]);
 
             if (true) {
@@ -296,12 +275,8 @@ if(isset($_POST['submit-pin'])){
 }
 
 
+if(isset($_POST['domestic-transfer'])){
 
-
-
-
-
-if (isset($_POST['domestic-transfer'])) {
     $amount = $_POST['amount'];
     $acct_name = $_POST['acct_name'];
     $bank_name = $_POST['bank_name'];
@@ -310,20 +285,20 @@ if (isset($_POST['domestic-transfer'])) {
     $acct_remarks = $_POST['acct_remarks'];
 
     $acct_amount = $row['acct_balance'];
-    $account_id = $row['id'];
+    $account_id =$row['id'];
 
-    if ($acct_stat === 'hold') {
-        toast_alert("error", "Account on Hold Contact Support");
-    } elseif ($amount > $acct_amount) {
-        toast_alert("error", "Insufficient Balance!");
-    } else {
-        // Code for generating and storing trans_otp
-//        $trans_opt = generateTransOtp(); // Implement this function
 
-        // Code for inserting into temp_trans table
+
+
+    if($acct_stat === 'hold' ){
+        toast_alert("error","Account on Hold Contact Support");
+    }elseif($amount > $acct_amount){
+        toast_alert("error","Insufficient Balance!");
+    }else {
         $trans_id = uniqid();
+        $trans_opt = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
         $trans_type = "domestic transfer";
-        $sql = "INSERT INTO temp_trans (amount, trans_id, acct_id, bank_name, acct_name_id, acct_number, acct_type, acct_remarks, trans_otp, trans_type) VALUES (:amount, :trans_id, :acct_id, :bank_name, :acct_name, :acct_number, :acct_type, :acct_remarks, :trans_otp, :trans_type)";
+        $sql = "INSERT INTO temp_trans (amount,trans_id,acct_id,bank_name,acct_name_id,acct_number,acct_type,acct_remarks,trans_otp,trans_type) VALUES(:amount,:trans_id,:acct_id,:bank_name,:acct_name,:acct_number,:acct_type,:acct_remarks,:trans_otp,:trans_type )";
         $tranfered = $conn->prepare($sql);
         $tranfered->execute([
             'amount' => $amount,
@@ -335,16 +310,83 @@ if (isset($_POST['domestic-transfer'])) {
             'acct_type' => $acct_type,
             'acct_remarks' => $acct_remarks,
             'trans_otp' => $trans_opt,
-            'trans_type' => $trans_type
+            'trans_type' =>$trans_type
         ]);
 
-        if ($tranfered) {
-            // Code for sending SMS and email
-//            sendSmsAndEmail($account_id, $trans_opt, $fullName, $pageTitle, $amount, $currency);
+        if (true) {
+//            $TRANS = uniqid('w', true);
+            $trans_id = mt_rand(100000, 999999);
+            $trans_opt = substr(number_format(time() * rand(), 0, '', ''), 0, 6);
 
-            // Redirect user to the appropriate page
-            $_SESSION['dom-transfer'] = $trans_opt;
-            header("Location:./pin.php");
+            $sql = "UPDATE users SET acct_otp=:acct_otp WHERE id=:id";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                'acct_otp' => $trans_opt,
+                'id' => $account_id
+            ]);
+
+            if (true) {
+                $sql = "SELECT * FROM users WHERE id=:id";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([
+                    'id' => $account_id
+                ]);
+
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $code = $result['acct_otp'];
+
+                $number = $result['acct_phone'];
+                $message = "Dear ".$result['firstname']. "Your verify code is ". $code;
+
+                if($page['twillio_status'] == '1'){
+                    $data = twilioController::sendSmsCode($number,$message);
+                }
+
+                $APP_NAME = $pageTitle;
+                $message = $sendMail->pinRequest($currency, $amount, $fullName, $code, $APP_NAME);
+                $subject = "[OTP CODE] - $APP_NAME";
+                $email_message->send_mail($email, $message, $subject);
+
+            }
+
+            if (true) {
+                session_start();
+                $_SESSION['dom-transfer'] = $code;
+                header("Location:./pin.php");
+            }
+
+
+            //  if (true) {
+            //         if($row['billing_code']==='0') {
+
+            //             $sql = "SELECT * FROM users WHERE id=:id";
+            //             $stmt = $conn->prepare($sql);
+            //             $stmt->execute([
+            //                 'id' => $account_id
+            //             ]);
+            //             $resultCode = $stmt->fetch(PDO::FETCH_ASSOC);
+            //             $code = $resultCode['acct_otp'];
+
+            //             $APP_NAME = $pageTitle;
+            //             $message = $sendMail->pinRequest($currency, $amount, $fullName, $code, $APP_NAME);
+            //             $subject = "[OTP CODE] - $APP_NAME";
+            //             $email_message->send_mail($email, $message, $subject);
+
+            //             if(true){
+            //                 session_start();
+            //                 $_SESSION['dom-transfer'] = $code;
+            //                     header("Location:./pin.php");
+            //             }
+            //         }else{
+            //             session_start();
+            //             $_SESSION['dom-transfer']=$user_id;
+            //             header("Location:./cot.php");
+            //         }
+            //     }
+
+
+
         }
     }
 }

@@ -669,6 +669,7 @@ if (isset($_POST['register'])){
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="form-group mb-4">
+                                                        <label for="">Next of Kin Age</label>
                                                         <input name="kin_age" type="text" class="form-control" placeholder="Next of Kin Age" >
                                                     </div>
                                                 </div>

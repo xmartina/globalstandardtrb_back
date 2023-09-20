@@ -1,6 +1,6 @@
 <?php
 //session_start();
-$pageName = "Account Manager";
+$pageName = "Next of Kin";
 include_once("layouts/header.php");
 //require_once("../include/config.php");
 //require_once("../include/userFunction.php");
@@ -33,7 +33,7 @@ if (!$_SESSION['acct_no']) {
                             <form id="general-info" class="section general-info" enctype="multipart/form-data" method="POST">
 
                                 <div class="info">
-                                    <h6 class="">Personal Account Manager</h6>
+                                    <h6 class="">My Next of Kin</h6>
                                     <div class="row">
                                         <div class="col-lg-11 mx-auto">
                                             <div class="row">
@@ -44,7 +44,7 @@ if (!$_SESSION['acct_no']) {
 
                                                             <!--<img src="/assets/profile/<?= $row['mgr_image']?>" class="dropify">-->
                                                         </center>
-                                                        <p class="mt-2"><i class="flaticon-cloud-upload mr-1"></i>Account Manager</p>
+                                                        <p class="mt-2"><i class="flaticon-cloud-upload mr-1"></i>Next of Kin</p>
 
                                                     </div>
                                                 </div>

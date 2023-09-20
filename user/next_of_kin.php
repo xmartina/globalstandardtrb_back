@@ -81,9 +81,16 @@ if (!$_SESSION['acct_no']) {
                                                             <!--                                                            </div>-->
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
-                                                                    <label for="profession">Account Type</label>
+                                                                    <label for="profession">Next of Kin full name</label>
 
-                                                                    <h5><?= $row['acct_type'] ?></h5>
+                                                                    <h5><?= $row['kin_name'] ?></h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group">
+                                                                    <label for="profession">Next of Kin email</label>
+
+                                                                    <h5><?= $row['kin_email'] ?></h5>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -91,8 +98,32 @@ if (!$_SESSION['acct_no']) {
                                                         <div class="row">
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
-                                                                    <label for="profession">Account Limits</label>
-                                                                    <h5> <?php echo $currency?> <?= $row['acct_limit'] ?></h5>
+                                                                    <label for="profession">Next of Kin phone</label>
+                                                                    <h5><?= $row['kin_phone'] ?></h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label for="">Relationship to Next of Kin</label>
+                                                                            <?php
+                                                                            $kin_Rtype = $row['kin_type'];
+                                                                            if($kin_Rtype == 1){ $kin_out_type = "Mother";}
+                                                                            elseif($kin_Rtype == 2){ $kin_out_type = "Father";}
+                                                                            elseif($kin_Rtype == 3){ $kin_out_type = "Sister";}
+                                                                            elseif($kin_Rtype == 4){ $kin_out_type = "Brother";}
+                                                                            elseif($kin_Rtype == 5){ $kin_out_type = "Uncle";}
+                                                                            elseif($kin_Rtype == 6){ $kin_out_type = "Aunty";}
+                                                                            elseif($kin_Rtype == 7){ $kin_out_type = "Cousin";}
+                                                                            ?>
+                                                                            <h5><?= $kin_out_type ?></h5>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <label for="profession">Next of Kin age</label>
+                                                                        <h5><?= $row['kin_age'] ?></h5>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

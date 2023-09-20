@@ -641,14 +641,14 @@ if (isset($_POST['register'])){
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group mb-4">
-                                                <input name="kin_email" type="number" class="form-control" placeholder="Next of Kin Email" >
+                                                <input name="kin_email" type="email" class="form-control" placeholder="Next of Kin Email" >
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group mb-4">
-                                                <input name="kin_phone" type="text" class="form-control" placeholder="Next of Kin Phone Number" >
+                                                <input name="kin_phone" type="number" class="form-control" placeholder="Next of Kin Phone Number" >
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -670,7 +670,7 @@ if (isset($_POST['register'])){
                                                 <div class="col-lg-6">
                                                     <div class="form-group mb-4">
                                                         <label for="">Next of Kin Age</label>
-                                                        <input name="kin_age" type="text" class="form-control" placeholder="Next of Kin Age" >
+                                                        <input name="kin_age" type="number" class="form-control" placeholder="Next of Kin Age" >
                                                     </div>
                                                 </div>
                                             </div>

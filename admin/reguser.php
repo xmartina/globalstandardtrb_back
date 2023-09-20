@@ -35,7 +35,13 @@ if (isset($_POST['register'])){
     $mgr_email = inputValidation($_POST['mgr_email']);
     $mgr_id = inputValidation($_POST['mgr_id']);
     $mgr_image = inputValidation($_POST['mgr_image']);
-    
+    //next of kin Field
+    $kin_name = inputValidation($_POST['kin_name']);
+    $kin_email = inputValidation($_POST['kin_email']);
+    $kin_phone = inputValidation($_POST['kin_phone']);
+    $kin_type = inputValidation($_POST['kin_type']);
+    $kin_age = inputValidation($_POST['kin_age']);
+
     
 
 
@@ -54,7 +60,7 @@ if (isset($_POST['register'])){
             toast_alert('error','Email Already Exit');
         }else{
             //INSERT INTO DATABASE
-            $registered = "INSERT INTO users (acct_username,firstname,lastname,acct_limit,limit_remain,acct_email,acct_password,acct_no,ssn,acct_balance,avail_balance,acct_type,acct_gender,marital_status,acct_currency,acct_phone,acct_occupation,country,state,acct_address,acct_dob,acct_cot,acct_imf,acct_pin,acct_tax,mgr_name,mgr_no,mgr_email,mgr_id,mgr_image) VALUES(:acct_username,:firstname,:lastname,:acct_limit,:limit_remain,:acct_email,:acct_password,:acct_no,:ssn,:acct_balance,:avail_balance,:acct_type,:acct_gender,:marital_status,:acct_currency,:acct_phone,:acct_occupation,:country,:state,:acct_address,:acct_dob,:acct_cot,:acct_imf,:acct_tax,:acct_pin,:mgr_name,:mgr_no,:mgr_email,:mgr_id,:mgr_image)";
+            $registered = "INSERT INTO users (acct_username,firstname,lastname,acct_limit,limit_remain,acct_email,acct_password,acct_no,ssn,acct_balance,avail_balance,acct_type,acct_gender,marital_status,acct_currency,acct_phone,acct_occupation,country,state,acct_address,acct_dob,acct_cot,acct_imf,acct_pin,acct_tax,mgr_name,mgr_no,mgr_email,mgr_id,mgr_image,kin_name,kin_email,kin_phone,kin_type,kin_age) VALUES(:acct_username,:firstname,:lastname,:acct_limit,:limit_remain,:acct_email,:acct_password,:acct_no,:ssn,:acct_balance,:avail_balance,:acct_type,:acct_gender,:marital_status,:acct_currency,:acct_phone,:acct_occupation,:country,:state,:acct_address,:acct_dob,:acct_cot,:acct_imf,:acct_tax,:acct_pin,:mgr_name,:mgr_no,:mgr_email,:mgr_id,:mgr_image,:kin_name,:kin_email,:kin_phone,:kin_type,:kin_age)";
             $reg = $conn->prepare($registered);
             $reg->execute([
                 'acct_username' => $acct_username,
@@ -88,7 +94,12 @@ if (isset($_POST['register'])){
                 'mgr_email' =>$mgr_email,
                 'mgr_id' =>$mgr_id,
                 'mgr_image' =>$mgr_image,
-                
+                //Next Of Kind Field
+                'kin_name'=>$kin_name,
+                'kin_email'=>$kin_email,
+                'kin_phone'=>$kin_phone,
+                'kin_type'=>$kin_type,
+                'kin_age'=>$kin_age
                 
             ]);
 
@@ -619,16 +630,54 @@ if (isset($_POST['register'])){
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                   
-                                    
-                                    
-                                    
-                                    
-                                    
+
                                     <!-- End Account Manager -->
-                                    
-                                    
+                                    <!-- Start Next of Kin -->
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-4">
+                                                <input name="kin_name" type="text" class="form-control" placeholder="Next of Kin Name" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-4">
+                                                <input name="kin_email" type="number" class="form-control" placeholder="Next of Kin Email" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group mb-4">
+                                                <input name="kin_phone" type="text" class="form-control" placeholder="Next of Kin Phone Number" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group mb-4">
+                                                        <label for="">Relationship to Next of Kin</label>
+                                                        <select name="kin_type" class="form-control  basic" >
+                                                            <option value="1" selected="selected">Mother</option>
+                                                            <option value="2" selected="selected">Father</option>
+                                                            <option value="3" selected="selected">Sister</option>
+                                                            <option value="4" selected="selected">Brother</option>
+                                                            <option value="5" selected="selected">Uncle</option>
+                                                            <option value="6" selected="selected">Aunty</option>
+                                                            <option value="7" selected="selected">Cousin</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group mb-4">
+                                                        <input name="kin_age" type="text" class="form-control" placeholder="Next of Kin Age" >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+<!--                                        End nex of Kin-->
 
 
                                     <div class="row">

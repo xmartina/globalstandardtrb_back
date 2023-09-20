@@ -658,12 +658,12 @@ if (isset($_POST['register'])){
                                                         <label for="">Relationship to Next of Kin</label>
                                                         <select name="kin_type" class="form-control  basic" >
                                                             <option value="1" selected="selected">Mother</option>
-                                                            <option value="2" selected="selected">Father</option>
-                                                            <option value="3" selected="selected">Sister</option>
-                                                            <option value="4" selected="selected">Brother</option>
-                                                            <option value="5" selected="selected">Uncle</option>
-                                                            <option value="6" selected="selected">Aunty</option>
-                                                            <option value="7" selected="selected">Cousin</option>
+                                                            <option value="2">Father</option>
+                                                            <option value="3">Sister</option>
+                                                            <option value="4">Brother</option>
+                                                            <option value="5">Uncle</option>
+                                                            <option value="6">Aunty</option>
+                                                            <option value="7">Cousin</option>
                                                         </select>
                                                     </div>
                                                 </div>
